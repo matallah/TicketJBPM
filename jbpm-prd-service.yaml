@@ -12,6 +12,10 @@ spec:
     port: 42
     protocol: TCP
     targetPort: 42
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
   selector:
     workload.user.cattle.io/workloadselector: deployment-jbpm-prd-jbpm-prod
   sessionAffinity: None

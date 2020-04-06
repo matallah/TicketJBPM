@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   labels:
     cattle.io/creator: norman
-  name: rancher-jbpm
+  name: jbpm-prd-ing
   namespace: jbpm-prd
 spec:
   rules:
