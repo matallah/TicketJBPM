@@ -17,4 +17,4 @@ spec:
   tls:
   - hosts:
     - jbpm.kolanot.com
-    secretName: wildcard.kolanot.com
+    secretName: wildcard-kolanot-com-tls
