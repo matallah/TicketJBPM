@@ -129,10 +129,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - jbpm-{domain-ingress-url}.kolanot.com
+    - jbpm-{environment}-{domain-ingress-url}.kolanot.com
     #secretName: wildcard.kolanot-{domain}
   rules:
-  - host: jbpm-{domain-ingress-url}.kolanot.com
+  - host: jbpm-{environment}-{domain-ingress-url}.kolanot.com
     http:
       paths:
       - path: /
