@@ -31,7 +31,7 @@ spec:
         - name: JBPM_DB_HOST
           value: 10.10.9.36
         - name: JBPM_DB_NAME
-          value: jbpm_{domain-db}
+          value: jbpm_{environment}_{domain-db}
         - name: JBPM_DB_PASSWORD
           value: JSHSBsbshdSb!1ssQ
         - name: JBPM_DB_PORT
