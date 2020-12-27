@@ -29,6 +29,9 @@ k8s-deploy-sandbox:
     - mkdir -p $HOME/.kube
     - cp /builds/kolanot/jbpm/kubeconfig $HOME/.kube/config
 
+    # Create config map with configuration files
+    - kubectl create configmap jbpm-configuration --insecure-skip-tls-verify=true --from-file=standalone.xml=configuration/acc/standalone.xml -n jbpm-acc -o yaml --dry-run | kubectl apply --insecure-skip-tls-verify=true -f -
+    
     # kolanot.com
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
     - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#com#g' -e 's#{domain-db}#com#g' -e 's#{domain-url}#com#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#com#g' kubernetes-temp.yml > kubernetes-final.yml
@@ -67,6 +70,9 @@ k8s-deploy-production:
     - mkdir -p $HOME/.kube
     - cp /builds/kolanot/jbpm/kubeconfig $HOME/.kube/config
 
+    # Create config map with configuration files
+    - kubectl create configmap jbpm-configuration --insecure-skip-tls-verify=true --from-file=standalone.xml=configuration/prd/standalone.xml -n jbpm-prd -o yaml --dry-run | kubectl apply --insecure-skip-tls-verify=true -f -
+    
     # kolanot.com
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
     - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#com#g' -e 's#{domain-db}#com#g' -e 's#{domain-url}#com#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#com#g' kubernetes-temp.yml > kubernetes-final.yml

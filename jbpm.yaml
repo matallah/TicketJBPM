@@ -78,6 +78,19 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         tty: true
+        volumeMounts:
+        - name: git
+          mountPath: /opt/jboss/wildfly/bin/.niogit
+        - name: standalonexml
+          mountPath: /opt/jboss/wildfly/standalone/configuration/standalone.xml
+          subPath: standalone.xml
+      volumes:
+        - name: git
+          persistentVolumeClaim:
+            claimName: jbpm-{environment}-{domain}-git-volume-claim
+        - name: standalonexml
+          configMap:
+            name: jbpm-configuration
       dnsConfig: {}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
@@ -87,6 +100,41 @@ spec:
 
 ---
 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jbpm-{environment}-{domain}-git-volume
+  namespace : jbpm-{environment}
+  labels:
+    purpose: jbpm-{environment}-{domain}-git-volume
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.10.9.68
+    path: /jbpm/jbpm-{environment}-{domain}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jbpm-{environment}-{domain}-git-volume-claim
+  namespace : jbpm-{environment}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  selector:
+    matchLabels:
+      purpose: jbpm-{environment}-{domain}-git-volume
+
+---
 apiVersion: v1
 kind: Service
 metadata:
