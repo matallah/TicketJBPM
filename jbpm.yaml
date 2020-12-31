@@ -81,9 +81,9 @@ spec:
         volumeMounts:
         - name: git
           mountPath: /opt/jboss/wildfly/bin/.niogit
-        - name: standalonexml
-          mountPath: /opt/jboss/wildfly/standalone/configuration/standalone.xml
-          subPath: standalone.xml
+        #- name: standalonexml
+        #  mountPath: /opt/jboss/wildfly/standalone/configuration/standalone.xml
+        #  subPath: standalone.xml
       volumes:
         - name: git
           persistentVolumeClaim:
