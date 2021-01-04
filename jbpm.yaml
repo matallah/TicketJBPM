@@ -29,13 +29,13 @@ spec:
         - name: JBPM_DB_DRIVER
           value: mysql
         - name: JBPM_DB_HOST
-          value: 10.10.9.36
+          value: 10.10.9.188
         - name: JBPM_DB_NAME
           value: jbpm_{environment}_{domain-db}
         - name: JBPM_DB_PASSWORD
-          value: JSHSBsbshdSb!1ssQ
+          value: Jbpm221
         - name: JBPM_DB_PORT
-          value: "3306"
+          value: "{port-db}"
         - name: JBPM_DB_USER
           value: jbpm
         image: jboss/jbpm-server-full:7.35.0.Final

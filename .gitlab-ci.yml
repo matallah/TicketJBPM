@@ -34,25 +34,25 @@ k8s-deploy-sandbox:
     
     # kolanot.com
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
-    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#com#g' -e 's#{domain-db}#com#g' -e 's#{domain-url}#com#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#com#g' kubernetes-temp.yml > kubernetes-final.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3350#g' -e 's#{domain}#com#g' -e 's#{domain-db}#com#g' -e 's#{domain-url}#com#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#com#g' kubernetes-temp.yml > kubernetes-final.yml
     - cat kubernetes-final.yml
     - kubectl apply -f kubernetes-final.yml -n jbpm-acc --insecure-skip-tls-verify=true
 
     # kolanot.co.uk
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
-    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#co-uk#g' -e 's#{domain-db}#co_uk#g' -e 's#{domain-url}#co.uk#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#co-uk#g' kubernetes-temp.yml > kubernetes-final.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3351#g' -e 's#{domain}#co-uk#g' -e 's#{domain-db}#co_uk#g' -e 's#{domain-url}#co.uk#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#co-uk#g' kubernetes-temp.yml > kubernetes-final.yml
     - cat kubernetes-final.yml
     - kubectl apply -f kubernetes-final.yml -n jbpm-acc --insecure-skip-tls-verify=true
 
     # kolanot.ie
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
-    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#ie#g' -e 's#{domain-db}#ie#g' -e 's#{domain-url}#ie#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#ie#g' kubernetes-temp.yml > kubernetes-final.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3353#g' -e 's#{domain}#ie#g' -e 's#{domain-db}#ie#g' -e 's#{domain-url}#ie#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#ie#g' kubernetes-temp.yml > kubernetes-final.yml
     - cat kubernetes-final.yml
     - kubectl apply -f kubernetes-final.yml -n jbpm-acc --insecure-skip-tls-verify=true
 
     # kolanot.ng
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
-    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#ng#g' -e 's#{domain-db}#ng#g' -e 's#{domain-url}#ng#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#ng#g' kubernetes-temp.yml > kubernetes-final.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3352#g' -e 's#{domain}#ng#g' -e 's#{domain-db}#ng#g' -e 's#{domain-url}#ng#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#ng#g' kubernetes-temp.yml > kubernetes-final.yml
     - cat kubernetes-final.yml
     - kubectl apply -f kubernetes-final.yml -n jbpm-acc --insecure-skip-tls-verify=true
 
@@ -75,25 +75,25 @@ k8s-deploy-production:
     
     # kolanot.com
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
-    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#com#g' -e 's#{domain-db}#com#g' -e 's#{domain-url}#com#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#com#g' kubernetes-temp.yml > kubernetes-final.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3354#g' -e 's#{domain}#com#g' -e 's#{domain-db}#com#g' -e 's#{domain-url}#com#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#com#g' kubernetes-temp.yml > kubernetes-final.yml
     - cat kubernetes-final.yml
     - kubectl apply -f kubernetes-final.yml -n jbpm-prd --insecure-skip-tls-verify=true
 
     # kolanot.co.uk
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
-    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#co-uk#g' -e 's#{domain-db}#co_uk#g' -e 's#{domain-url}#co.uk#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#co-uk#g' kubernetes-temp.yml > kubernetes-final.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3355#g' -e 's#{domain}#co-uk#g' -e 's#{domain-db}#co_uk#g' -e 's#{domain-url}#co.uk#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#co-uk#g' kubernetes-temp.yml > kubernetes-final.yml
     - cat kubernetes-final.yml
     - kubectl apply -f kubernetes-final.yml -n jbpm-prd --insecure-skip-tls-verify=true
 
     # kolanot.ie
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
-    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#ie#g' -e 's#{domain-db}#ie#g' -e 's#{domain-url}#ie#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#ie#g' kubernetes-temp.yml > kubernetes-final.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3357#g' -e 's#{domain}#ie#g' -e 's#{domain-db}#ie#g' -e 's#{domain-url}#ie#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#ie#g' kubernetes-temp.yml > kubernetes-final.yml
     - cat kubernetes-final.yml
     - kubectl apply -f kubernetes-final.yml -n jbpm-prd --insecure-skip-tls-verify=true
 
     # kolanot.ng
     - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
-    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{domain}#ng#g' -e 's#{domain-db}#ng#g' -e 's#{domain-url}#ng#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#ng#g' kubernetes-temp.yml > kubernetes-final.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3356#g' -e 's#{domain}#ng#g' -e 's#{domain-db}#ng#g' -e 's#{domain-url}#ng#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#ng#g' kubernetes-temp.yml > kubernetes-final.yml
     - cat kubernetes-final.yml
     - kubectl apply -f kubernetes-final.yml -n jbpm-prd --insecure-skip-tls-verify=true
 
