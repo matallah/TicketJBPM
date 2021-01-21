@@ -7,29 +7,51 @@ package com.myspace.ticket;
 @javax.persistence.Entity
 public class SolutionORM implements java.io.Serializable {
 
-    static final long serialVersionUID = 1L;
+	static final long serialVersionUID = 1L;
 
-    @javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.AUTO, generator = "SOLUTIONORM_ID_GENERATOR")
-    @javax.persistence.Id
-    @javax.persistence.SequenceGenerator(name = "SOLUTIONORM_ID_GENERATOR", sequenceName = "SOLUTIONORM_ID_SEQ")
-    private java.lang.Long id;
+	@javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.AUTO, generator = "SOLUTIONORM_ID_GENERATOR")
+	@javax.persistence.Id
+	@javax.persistence.SequenceGenerator(name = "SOLUTIONORM_ID_GENERATOR", sequenceName = "SOLUTIONORM_ID_SEQ")
+	private java.lang.Long id;
 
-    public SolutionORM() {
-    }
-    
-    public SolutionORM(java.lang.Long id) {
-        this.id = id;
-    }
+	@org.kie.api.definition.type.Label(value = "Solution")
+	private java.lang.String solution;
 
-    public java.lang.Long getId() {
-        return this.id;
-    }
-    
-    public void setId(java.lang.Long id) {
-        this.id = id;
-    }
+	@org.kie.api.definition.type.Label(value = "Closed")
+	private boolean closed;
 
+	public SolutionORM() {
+	}
 
+	public java.lang.Long getId() {
+		return this.id;
+	}
 
+	public void setId(java.lang.Long id) {
+		this.id = id;
+	}
+
+	public java.lang.String getSolution() {
+		return this.solution;
+	}
+
+	public void setSolution(java.lang.String solution) {
+		this.solution = solution;
+	}
+
+	public boolean isClosed() {
+		return this.closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
+	}
+
+	public SolutionORM(java.lang.Long id, java.lang.String solution,
+			boolean closed) {
+		this.id = id;
+		this.solution = solution;
+		this.closed = closed;
+	}
 
 }
