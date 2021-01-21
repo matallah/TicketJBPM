@@ -1,0 +1,1 @@
+{"id":"74b3de13-da84-4bd1-854b-44918ba64d8e","name":"Solution-taskform.frm","model":{"taskName":"Solution","processId":"Ticket.IssueProcess","properties":[],"formModelType":"org.kie.workbench.common.forms.jbpm.model.authoring.task.TaskFormModel"},"fields":[],"layoutTemplate":{"version":3,"style":"FLUID","layoutProperties":{},"rows":[]}}
