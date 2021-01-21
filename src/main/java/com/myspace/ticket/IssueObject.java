@@ -26,9 +26,11 @@ public class IssueObject implements java.io.Serializable {
 	@org.kie.api.definition.type.Label("Modified date")
 	private java.time.LocalDateTime modifiedDate;
 
-	@org.kie.api.definition.type.Label("Solution")
-	@javax.persistence.ManyToOne(fetch = javax.persistence.FetchType.EAGER, cascade = {javax.persistence.CascadeType.ALL})
-	private SolutionORM solution;
+	@org.kie.api.definition.type.Label(value = "Solution")
+	private java.lang.String solution;
+
+	@org.kie.api.definition.type.Label(value = "Closed")
+	private boolean closed;
 
 	public IssueObject() {
 	}
@@ -73,24 +75,42 @@ public class IssueObject implements java.io.Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public com.myspace.ticket.SolutionORM getSolution() {
+	public IssueObject(java.lang.Long id, java.lang.String title,
+			java.lang.String description, java.time.LocalDateTime creationDate) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.creationDate = creationDate;
+		this.modifiedDate = modifiedDate;
+	}
+
+	public java.lang.String getSolution() {
 		return this.solution;
 	}
 
-	public void setSolution(com.myspace.ticket.SolutionORM solution) {
+	public void setSolution(java.lang.String solution) {
 		this.solution = solution;
+	}
+
+	public boolean isClosed() {
+		return this.closed;
+	}
+
+	public void setClosed(boolean closed) {
+		this.closed = closed;
 	}
 
 	public IssueObject(java.lang.Long id, java.lang.String title,
 			java.lang.String description, java.time.LocalDateTime creationDate,
-			java.time.LocalDateTime modifiedDate,
-			com.myspace.ticket.SolutionORM solution) {
+			java.time.LocalDateTime modifiedDate, java.lang.String solution,
+			boolean closed) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.creationDate = creationDate;
 		this.modifiedDate = modifiedDate;
 		this.solution = solution;
+		this.closed = closed;
 	}
 
 }
