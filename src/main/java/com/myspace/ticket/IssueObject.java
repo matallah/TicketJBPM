@@ -29,6 +29,9 @@ public class IssueObject implements java.io.Serializable {
 	@org.kie.api.definition.type.Label("Modified date")
 	private java.time.LocalDateTime modifiedDate;
 
+	@org.kie.api.definition.type.Label(value = "Solution")
+	private java.lang.String solution;
+
 	public IssueObject() {
 	}
 
@@ -80,16 +83,25 @@ public class IssueObject implements java.io.Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
+	public java.lang.String getSolution() {
+		return this.solution;
+	}
+
+	public void setSolution(java.lang.String solution) {
+		this.solution = solution;
+	}
+
 	public IssueObject(java.lang.Long id, java.lang.String title,
 			java.lang.String description, boolean closed,
 			java.time.LocalDateTime creationDate,
-			java.time.LocalDateTime modifiedDate) {
+			java.time.LocalDateTime modifiedDate, java.lang.String solution) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.closed = closed;
 		this.creationDate = creationDate;
 		this.modifiedDate = modifiedDate;
+		this.solution = solution;
 	}
 
 }
