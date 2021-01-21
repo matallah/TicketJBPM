@@ -14,19 +14,19 @@ public class IssueObject implements java.io.Serializable {
 	@javax.persistence.SequenceGenerator(name = "ISSUEOBJECT_ID_GENERATOR", sequenceName = "ISSUEOBJECT_ID_SEQ")
 	private java.lang.Long id;
 
-	@org.kie.api.definition.type.Label(value = "Title")
+	@org.kie.api.definition.type.Label("Title")
 	private java.lang.String title;
 
-	@org.kie.api.definition.type.Label(value = "Description")
+	@org.kie.api.definition.type.Label("Description")
 	private java.lang.String description;
 
-	@org.kie.api.definition.type.Label(value = "Closed")
+	@org.kie.api.definition.type.Label("Closed")
 	private boolean closed;
 
-	@org.kie.api.definition.type.Label(value = "Creation date")
+	@org.kie.api.definition.type.Label("Creation date")
 	private java.time.LocalDateTime creationDate;
 
-	@org.kie.api.definition.type.Label(value = "Bodified date")
+	@org.kie.api.definition.type.Label("Modified date")
 	private java.time.LocalDateTime modifiedDate;
 
 	public IssueObject() {
