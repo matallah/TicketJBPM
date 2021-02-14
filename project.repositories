@@ -12,7 +12,7 @@
       <include>true</include>
       <metadata>
         <id>central</id>
-        <url>http://10.0.10.110:8081/artifactory/libs-release</url>
+        <url>http://10.0.10.110:8081/artifactory/plugins-release</url>
         <source>SETTINGS</source>
       </metadata>
     </repository>
@@ -20,7 +20,15 @@
       <include>true</include>
       <metadata>
         <id>central</id>
-        <url>http://10.0.10.110:8081/artifactory/plugins-release</url>
+        <url>http://10.0.10.110:8081/artifactory/libs-release</url>
+        <source>SETTINGS</source>
+      </metadata>
+    </repository>
+    <repository>
+      <include>true</include>
+      <metadata>
+        <id>snapshots</id>
+        <url>http://10.0.10.110:8081/artifactory/libs-snapshot</url>
         <source>SETTINGS</source>
       </metadata>
     </repository>
@@ -30,14 +38,6 @@
         <id>local</id>
         <url>C:\Users\Muo/.m2/repository</url>
         <source>LOCAL</source>
-      </metadata>
-    </repository>
-    <repository>
-      <include>true</include>
-      <metadata>
-        <id>snapshots</id>
-        <url>http://10.0.10.110:8081/artifactory/libs-snapshot</url>
-        <source>SETTINGS</source>
       </metadata>
     </repository>
   </repositories>
