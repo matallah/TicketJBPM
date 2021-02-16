@@ -12,7 +12,7 @@
     <work-item-handlers>
         <work-item-handler>
             <resolver>mvel</resolver>
-            <identifier>new org.jbpm.process.workitem.email.EmailWorkItemHandler("mail.kolanot.com", "465", "1stlevel.support@kolanot.com", "Ug&amp;u%Ry2^#fo")</identifier>
+            <identifier>new org.jbpm.process.workitem.email.EmailWorkItemHandler("mail.kolanot.com", "465", "1stlevel.support@kolanot.com", "mailP@ssw0rd")</identifier>
             <parameters/>
             <name>Email</name>
         </work-item-handler>
