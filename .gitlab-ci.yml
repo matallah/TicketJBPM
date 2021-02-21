@@ -1,0 +1,104 @@
+image: docker:18-git
+services:
+  - docker:18.09.7-dind
+
+variables:
+  DOCKER_IMAGE_NAME: registry.gitlab.com/kolanot/frontend/liferay-module:2.0.7-7.2.x-$CI_COMMIT_REF_NAME-$CI_PIPELINE_ID
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+
+before_script:
+- export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+stages:
+- deploy
+
+k8s-deploy-sandbox:
+  stage: deploy
+  image: alpine
+  script:
+    - apk add --no-cache curl
+    - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    - chmod +x ./kubectl
+    - mv ./kubectl /usr/local/bin/kubectl
+    - mkdir -p $HOME/.kube
+    - cp /builds/kolanot/jbpm/kubeconfig $HOME/.kube/config
+
+    # Create config map with configuration files
+    - kubectl create configmap jbpm-configuration --insecure-skip-tls-verify=true --from-file=standalone.xml=configuration/acc/standalone.xml -n jbpm-acc -o yaml --dry-run | kubectl apply --insecure-skip-tls-verify=true -f -
+    
+    # kolanot.com
+    - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3350#g' -e 's#{domain}#com#g' -e 's#{domain-db}#com#g' -e 's#{domain-url}#com#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#com#g' kubernetes-temp.yml > kubernetes-final.yml
+    - cat kubernetes-final.yml
+    - kubectl apply -f kubernetes-final.yml -n jbpm-acc --insecure-skip-tls-verify=true
+
+    # kolanot.co.uk
+    - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3351#g' -e 's#{domain}#co-uk#g' -e 's#{domain-db}#co_uk#g' -e 's#{domain-url}#co.uk#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#co-uk#g' kubernetes-temp.yml > kubernetes-final.yml
+    - cat kubernetes-final.yml
+    - kubectl apply -f kubernetes-final.yml -n jbpm-acc --insecure-skip-tls-verify=true
+
+    # kolanot.ie
+    - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3353#g' -e 's#{domain}#ie#g' -e 's#{domain-db}#ie#g' -e 's#{domain-url}#ie#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#ie#g' kubernetes-temp.yml > kubernetes-final.yml
+    - cat kubernetes-final.yml
+    - kubectl apply -f kubernetes-final.yml -n jbpm-acc --insecure-skip-tls-verify=true
+
+    # kolanot.ng
+    - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3352#g' -e 's#{domain}#ng#g' -e 's#{domain-db}#ng#g' -e 's#{domain-url}#ng#g' -e 's#{environment}#acc#g' -e 's#{domain-ingress-url}#ng#g' kubernetes-temp.yml > kubernetes-final.yml
+    - cat kubernetes-final.yml
+    - kubectl apply -f kubernetes-final.yml -n jbpm-acc --insecure-skip-tls-verify=true
+
+  tags: 
+    - kolanot
+
+k8s-deploy-production:
+  stage: deploy
+  image: alpine
+  script:
+    - apk add --no-cache curl
+    - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    - chmod +x ./kubectl
+    - mv ./kubectl /usr/local/bin/kubectl
+    - mkdir -p $HOME/.kube
+    - cp /builds/kolanot/jbpm/kubeconfig $HOME/.kube/config
+
+    # Create config map with configuration files
+    - kubectl create configmap jbpm-configuration --insecure-skip-tls-verify=true --from-file=standalone.xml=configuration/prd/standalone.xml -n jbpm-prd -o yaml --dry-run | kubectl apply --insecure-skip-tls-verify=true -f -
+    
+    # kolanot.com
+    - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3354#g' -e 's#{domain}#com#g' -e 's#{domain-db}#com#g' -e 's#{domain-url}#com#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#com#g' kubernetes-temp.yml > kubernetes-final.yml
+    - cat kubernetes-final.yml
+    - kubectl apply -f kubernetes-final.yml -n jbpm-prd --insecure-skip-tls-verify=true
+
+    # kolanot.co.uk
+    - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3355#g' -e 's#{domain}#co-uk#g' -e 's#{domain-db}#co_uk#g' -e 's#{domain-url}#co.uk#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#co-uk#g' kubernetes-temp.yml > kubernetes-final.yml
+    - cat kubernetes-final.yml
+    - kubectl apply -f kubernetes-final.yml -n jbpm-prd --insecure-skip-tls-verify=true
+
+    # kolanot.ie
+    - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3357#g' -e 's#{domain}#ie#g' -e 's#{domain-db}#ie#g' -e 's#{domain-url}#ie#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#ie#g' kubernetes-temp.yml > kubernetes-final.yml
+    - cat kubernetes-final.yml
+    - kubectl apply -f kubernetes-final.yml -n jbpm-prd --insecure-skip-tls-verify=true
+
+    # kolanot.ng
+    - sed 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' jbpm.yaml > kubernetes-temp.yml
+    - sed -e 's#_DOCKER_IMAGE_#'"$DOCKER_IMAGE_NAME"'#g' -e 's#{port-db}#3356#g' -e 's#{domain}#ng#g' -e 's#{domain-db}#ng#g' -e 's#{domain-url}#ng#g' -e 's#{environment}#prd#g' -e 's#{domain-ingress-url}#ng#g' kubernetes-temp.yml > kubernetes-final.yml
+    - cat kubernetes-final.yml
+    - kubectl apply -f kubernetes-final.yml -n jbpm-prd --insecure-skip-tls-verify=true
+
+  tags: 
+    - kolanot
+  only:
+    - master
+  when: manual

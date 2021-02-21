@@ -1,0 +1,189 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: jbpm-{environment}-kolanot-{domain}
+    name: jbpm-{environment}-kolanot-{domain}
+  name: jbpm-{environment}-kolanot-{domain}
+  namespace: jbpm-{environment}
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      run: jbpm-{environment}-kolanot-{domain}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: jbpm-{environment}-kolanot-{domain}
+        name: jbpm-{environment}-kolanot-{domain}
+    spec:
+      containers:
+      - env:
+        - name: JBPM_DB_DRIVER
+          value: mysql
+        - name: JBPM_DB_HOST
+          value: 10.10.9.188
+        - name: JBPM_DB_NAME
+          value: jbpm_{environment}_{domain-db}
+        - name: JBPM_DB_PASSWORD
+          value: Jbpm221
+        - name: JBPM_DB_PORT
+          value: "{port-db}"
+        - name: JBPM_DB_USER
+          value: jbpm
+        image: jboss/jbpm-server-full:7.35.0.Final
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 50
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 750
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: jbpm-{environment}-kolanot-{domain}
+        readinessProbe:
+          failureThreshold: 50
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 100
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: "2"
+            memory: 5Gi
+          requests:
+            cpu: "1"
+            memory: 2Gi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+        volumeMounts:
+        - name: git
+          mountPath: /opt/jboss/wildfly/bin/.niogit
+        #- name: standalonexml
+        #  mountPath: /opt/jboss/wildfly/standalone/configuration/standalone.xml
+        #  subPath: standalone.xml
+      volumes:
+        - name: git
+          persistentVolumeClaim:
+            claimName: jbpm-{environment}-{domain}-git-volume-claim
+        - name: standalonexml
+          configMap:
+            name: jbpm-configuration
+      dnsConfig: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jbpm-{environment}-{domain}-git-volume
+  namespace : jbpm-{environment}
+  labels:
+    purpose: jbpm-{environment}-{domain}-git-volume
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 10.10.9.68
+    path: /jbpm/jbpm-{environment}-{domain}
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jbpm-{environment}-{domain}-git-volume-claim
+  namespace : jbpm-{environment}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ""
+  selector:
+    matchLabels:
+      purpose: jbpm-{environment}-{domain}-git-volume
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: jbpm-{environment}-kolanot-{domain}
+    name: jbpm-{environment}-kolanot-{domain}
+  name: jbpm-{environment}-kolanot-{domain}
+  namespace: jbpm-{environment}
+spec:
+  clusterIP: None
+  ports:
+  - name: default
+    port: 42
+    protocol: TCP
+    targetPort: 42
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    run: jbpm-{environment}-kolanot-{domain}
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jbpm-{environment}-kolanot-{domain}
+  namespace: jbpm-{environment}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "20m"
+    nginx.org/client-max-body-size: "20m"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/tls-acme: "true"
+    external-dns.alpha.kubernetes.io/target: "51.148.1.82"
+spec:
+  tls:
+  - hosts:
+    - jbpm-{environment}-{domain-ingress-url}.kolanot.com
+    #secretName: wildcard.kolanot-{domain}
+  rules:
+  - host: jbpm-{environment}-{domain-ingress-url}.kolanot.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jbpm-{environment}-kolanot-{domain}
+          servicePort: 8080
